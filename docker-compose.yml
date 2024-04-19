@@ -1,0 +1,26 @@
+version: '3'
+services:
+  rest-server:
+    image: rest-server:latest
+    build:
+      context: ./rest_server/
+    ports:
+      - "8000:8000"
+  
+  grpc-server:
+    image: grpc-server:latest
+    build:
+      context: ./grpc_server/
+    ports:
+      - "50051:50051"
+      - "50052:50052"
+
+  client:
+    image: client:latest
+    build:
+      context: ./client/
+    ports:
+      - "7878:7878"
+    depends_on:
+      - rest-server
+      - grpc-server
